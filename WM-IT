@@ -100,6 +100,10 @@ function install_package() {
 	    echo "Installing $PACKAGE using emerge..."
 	    emerge --ask $PACKAGE
 	    ;;
+    "xbps")
+           echo "Installing $PACKAGE using xbps-install..."
+	   xbps-install $PACKAGE
+	    ;;
     "pkg_add")
 	    echo "Installing $PACKAGE using pkg_add..."
     doas pkg_add $PACKAGE
@@ -145,6 +149,10 @@ function remove_package() {
     "emerge")
 	    echo "Removing $PACKAGE using emerge..."
 	    emerge --unemerge $PACKAGE
+	    ;;
+	    "xbps")
+		    echo "Removing $PACKAGE using xbps-remove"
+		    xbps-remove -Rf $PACKAGE
 	    ;;
        "pkg")
 	       echo "Removing $PACKAGE using pkg..."
