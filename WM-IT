@@ -11,7 +11,7 @@ function draw_wallpaper() {
     echo "                                                                             "
     echo "                                                                             "
     echo "  _    _   _____   __  Welcome to WM-IT!                                     "
-    echo " | |  | | |_   _| |  | WM-IT the best!                                       "
+    echo " | |  | | |_   _| |  | Thank you for downloading our program!                "
     echo " | |__| |   | |   |  | WM-IT github:                                         "
     echo " |  __  |   | |   |__| https://github.com/CowerDawn/WM-IT                    "
     echo " | |  | |  _| |_   __  Creators: CowerDawn,S0siskaKiller                     "
@@ -96,6 +96,10 @@ function install_package() {
             echo "Installing $PACKAGE using zypper..."
             sudo zypper install -y $PACKAGE
             ;;
+    "emerge")
+	    echo "Installing $PACKAGE using emerge..."
+	    emerge --ask $PACKAGE
+	    ;;
     "pkg_add")
 	    echo "Installing $PACKAGE using pkg_add..."
     doas pkg_add $PACKAGE
@@ -138,6 +142,10 @@ function remove_package() {
             echo "Removing $PACKAGE using zypper..."
             sudo zypper remove -y $PACKAGE
             ;;
+    "emerge")
+	    echo "Removing $PACKAGE using emerge..."
+	    emerge --unemerge $PACKAGE
+	    ;;
        "pkg")
 	       echo "Removing $PACKAGE using pkg..."
 	       sudo pkg delete $PACKAGE
@@ -145,6 +153,10 @@ function remove_package() {
        "pkg_delete")
 	       echo "Removing $PACKAGE using pkg_delete..."
                doas pkg_delete $PACKAGE
+                 ;;
+	       "pkgin")
+		       echo "Removing $PACKAGE using pkgin..."
+	       doas pkgin remove $PACKAGE
 	       ;;
         *)
             echo "Unsupported package manager. Cannot remove $PACKAGE."
