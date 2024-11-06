@@ -67,6 +67,16 @@ function detect_package_manager() {
         echo "yum"
     elif [ -f /etc/SuSE-release ]; then
         echo "zypper"
+    elif [ -f /etc/gentoo-release ];then
+	    echo "portage"
+    elif [ -f /etc/void-release ];then
+	    echo "xbps"
+    elif [ "$(uname)" = "FreeBSD"];then
+	    echo "pkg"
+    elif [ "$(uname)" = "OpenBSD"];then
+	    echo "pkg_info"
+    elif [ "$(uname)" = "NetBSD"];then
+	    echo "pkgin"
     else
         echo "unknown"
     fi
@@ -96,15 +106,15 @@ function install_package() {
             echo "Installing $PACKAGE using zypper..."
             sudo zypper install -y $PACKAGE
             ;;
-    "emerge")
-	    echo "Installing $PACKAGE using emerge..."
+    "portage")
+	    echo "Installing $PACKAGE using portage..."
 	    emerge --ask $PACKAGE
 	    ;;
     "xbps")
            echo "Installing $PACKAGE using xbps-install..."
 	   xbps-install $PACKAGE
 	    ;;
-    "pkg_add")
+    "pkg_info")
 	    echo "Installing $PACKAGE using pkg_add..."
     doas pkg_add $PACKAGE
     ;;
@@ -146,8 +156,8 @@ function remove_package() {
             echo "Removing $PACKAGE using zypper..."
             sudo zypper remove -y $PACKAGE
             ;;
-    "emerge")
-	    echo "Removing $PACKAGE using emerge..."
+    "portage")
+	    echo "Removing $PACKAGE using portage..."
 	    emerge --unemerge $PACKAGE
 	    ;;
 	    "xbps")
@@ -158,7 +168,7 @@ function remove_package() {
 	       echo "Removing $PACKAGE using pkg..."
 	       sudo pkg delete $PACKAGE
 	       ;;
-       "pkg_delete")
+       "pkg_info")
 	       echo "Removing $PACKAGE using pkg_delete..."
                doas pkg_delete $PACKAGE
                  ;;
