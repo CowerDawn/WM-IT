@@ -108,7 +108,7 @@ function install_package() {
             ;;
     "portage")
 	    echo "Installing $PACKAGE using portage..."
-	    emerge --ask $PACKAGE
+	   sudo emerge --ask $PACKAGE
 	    ;;
     "xbps")
            echo "Installing $PACKAGE using xbps-install..."
@@ -158,7 +158,7 @@ function remove_package() {
             ;;
     "portage")
 	    echo "Removing $PACKAGE using portage..."
-	    emerge --unemerge $PACKAGE
+	   sudo emerge --unemerge $PACKAGE
 	    ;;
 	    "xbps")
 		    echo "Removing $PACKAGE using xbps-remove"
