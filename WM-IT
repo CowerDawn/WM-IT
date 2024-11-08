@@ -15,7 +15,7 @@ function draw_wallpaper() {
     echo " | |__| |   | |   |  | WM-IT github:                                         "
     echo " |  __  |   | |   |__| https://github.com/CowerDawn/WM-IT                    "
     echo " | |  | |  _| |_   __  Creators: CowerDawn,S0siskaKiller                     "
-    echo " |_|  |_| |_____| |__| WM-IT - This is a Windows manager inside the terminal!"
+    echo " |_|  |_| |_____| |__| WM-IT - This is a Window manager inside the terminal! "
     echo "                                                                             "
     echo "                                                                             "
     echo -e "\e[0m"      
