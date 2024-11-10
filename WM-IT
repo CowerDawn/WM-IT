@@ -184,18 +184,23 @@ function remove_package() {
 
 function show_help() {
     echo "WM-IT Help:"
-    echo "Super + 1-9: Switch workspace"
-    echo "Super + d: Open program"
-    echo "Super + q: Close program"
-    echo "Super + Enter: Open command line"
-    echo "Super + -: Shutdown PC"
-    echo "Super + b: Reboot PC"
-    echo "Super + m: Start X server"
+    echo "1-9: Switch workspace"
+    echo "d: Open program"
+    echo "q: Close program"
+    echo "Enter: Open command line"
+    echo "-: Shutdown PC"
+    echo "b: Reboot PC"
+    echo "m: Start X server"
+    echo "n: Network management"
+    echo "p: Show running processes"
+    echo "t: Show system info"
+    echo "a: Audio management"
+    echo "g: Search package"
+    echo "o: Check distribution support"
     echo "install [package]: Install package"
     echo "remove [package]: Remove package"
     echo "C - clear the screen"
     echo "help: Show this help"
-    
 }
 
 function open_command_line() {
@@ -230,6 +235,7 @@ function start_x_server() {
     echo "Starting X server with startx..."
     startx
 }
+
 function shell() {
 	while true; do
 	read -p " > " SHELL
@@ -241,6 +247,178 @@ function shell() {
 	break
 	fi
 done
+}
+
+function show_processes() {
+    draw_wallpaper
+    draw_menu
+    echo "Running processes:"
+    ps aux | head -n 10
+}
+
+function show_system_info() {
+    draw_wallpaper
+    draw_menu
+    echo "System Info:"
+    echo "CPU Usage: $(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')"
+    echo "Memory Usage: $(free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }')"
+    echo "Disk Usage: $(df -h / | awk '{print $5}' | tail -n 1)"
+}
+
+function network_management() {
+    draw_wallpaper
+    draw_menu
+    echo "Network Management:"
+    echo "1. List network interfaces"
+    echo "2. Enable network interface"
+    echo "3. Disable network interface"
+    echo "4. Set static IP address"
+    echo "5. Set DHCP"
+    echo "6. Exit"
+    read -rsn1 choice
+    case $choice in
+        1)
+            echo "Network interfaces:"
+            ip link show
+            ;;
+        2)
+            echo "Enter interface name to enable:"
+            read INTERFACE
+            sudo ip link set $INTERFACE up
+            echo "Interface $INTERFACE enabled."
+            ;;
+        3)
+            echo "Enter interface name to disable:"
+            read INTERFACE
+            sudo ip link set $INTERFACE down
+            echo "Interface $INTERFACE disabled."
+            ;;
+        4)
+            echo "Enter interface name:"
+            read INTERFACE
+            echo "Enter IP address:"
+            read IP
+            echo "Enter subnet mask (e.g., 24):"
+            read MASK
+            sudo ip addr add $IP/$MASK dev $INTERFACE
+            echo "Static IP set for $INTERFACE."
+            ;;
+        5)
+            echo "Enter interface name:"
+            read INTERFACE
+            sudo dhclient $INTERFACE
+            echo "DHCP set for $INTERFACE."
+            ;;
+        6)
+            echo "Exiting network management."
+            ;;
+        *)
+            echo "Invalid choice."
+            ;;
+    esac
+}
+
+function audio_management() {
+    draw_wallpaper
+    draw_menu
+    echo "Audio Management:"
+    echo "1. Increase volume"
+    echo "2. Decrease volume"
+    echo "3. Mute/Unmute"
+    echo "4. List audio devices"
+    echo "5. Set default audio device"
+    echo "6. Exit"
+    read -rsn1 choice
+    case $choice in
+        1)
+            amixer set Master 5%+
+            echo "Volume increased."
+            ;;
+        2)
+            amixer set Master 5%-
+            echo "Volume decreased."
+            ;;
+        3)
+            amixer set Master toggle
+            echo "Mute toggled."
+            ;;
+        4)
+            echo "Audio devices:"
+            aplay -l
+            ;;
+        5)
+            echo "Enter device name to set as default:"
+            read DEVICE
+            pactl set-default-sink $DEVICE
+            echo "Default audio device set to $DEVICE."
+            ;;
+        6)
+            echo "Exiting audio management."
+            ;;
+        *)
+            echo "Invalid choice."
+            ;;
+    esac
+}
+
+function search_package() {
+    echo "Enter package name to search:"
+    read PACKAGE
+    PM=$(detect_package_manager)
+    case $PM in
+        "apt")
+            echo "Searching for $PACKAGE using apt..."
+            apt-cache search $PACKAGE
+            ;;
+        "pacman")
+            echo "Searching for $PACKAGE using pacman..."
+            pacman -Ss $PACKAGE
+            ;;
+        "dnf")
+            echo "Searching for $PACKAGE using dnf..."
+            dnf search $PACKAGE
+            ;;
+        "yum")
+            echo "Searching for $PACKAGE using yum..."
+            yum search $PACKAGE
+            ;;
+        "zypper")
+            echo "Searching for $PACKAGE using zypper..."
+            zypper search $PACKAGE
+            ;;
+        "portage")
+            echo "Searching for $PACKAGE using portage..."
+            emerge --search $PACKAGE
+            ;;
+        "xbps")
+            echo "Searching for $PACKAGE using xbps..."
+            xbps-query -Rs $PACKAGE
+            ;;
+        "pkg")
+            echo "Searching for $PACKAGE using pkg..."
+            pkg search $PACKAGE
+            ;;
+        "pkg_info")
+            echo "Searching for $PACKAGE using pkg_info..."
+            pkg_info | grep $PACKAGE
+            ;;
+        "pkgin")
+            echo "Searching for $PACKAGE using pkgin..."
+            pkgin search $PACKAGE
+            ;;
+        *)
+            echo "Unsupported package manager. Cannot search for $PACKAGE."
+            ;;
+    esac
+}
+
+function check_distribution_support() {
+    PM=$(detect_package_manager)
+    if [[ $PM != "unknown" ]]; then
+        echo "Your distribution is supported."
+    else
+        echo "Your distribution is not yet supported. Please contact the developers at 8965466986854@mail.ru"
+    fi
 }
 
 draw_wallpaper
@@ -290,16 +468,35 @@ while true; do
         "m")
             start_x_server
             ;;
-    "c")
-	    clear 
-	    ;;
+        "c")
+            clear 
+            ;;
         "s")
             echo "Exiting WM-IT..."
             exit 0
             ;;
-	"e")
-		echo "To exit the shell, type the command “exitshell”"
-		shell
+        "e")
+            echo "To exit the shell, type the command вЂњexitshellвЂќ"
+            shell
+            ;;
+        "p")
+            show_processes
+            ;;
+        "t")
+            show_system_info
+            ;;
+        "n")
+            network_management
+            ;;
+        "a")
+            audio_management
+            ;;
+        "g")
+            search_package
+            ;;
+        "o")
+            check_distribution_support
+            ;;
     esac
     draw_menu
 done
