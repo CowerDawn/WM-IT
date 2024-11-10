@@ -185,6 +185,7 @@ function remove_package() {
 function show_help() {
     echo "WM-IT Help:"
     echo "1-9: Switch workspace"
+    echo "e: open WM-IT shell"
     echo "d: Open program"
     echo "q: Close program"
     echo "Enter: Open command line"
