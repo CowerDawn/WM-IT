@@ -10,6 +10,8 @@ function draw_wallpaper() {
     echo -e "\e[44m\e[37m"
     echo "                                                                                                          "
     echo "                                                                                                          "
+    echo "                                                                                                          "
+    echo "                                                                                                          "
     echo " ____      ____  ____    ____      _____  _________                                                       "
     echo "|_  _|    |_  _||_   \  /   _|    |_   _||  _   _  | Welcome to WM-IT!                                    "
     echo "  \ \  /\  / /    |   \/   | ______ | |  |_/ | | \_| Thank you for downloading our program!               "
@@ -17,6 +19,8 @@ function draw_wallpaper() {
     echo "    \  /\  /     _| |_\/_| |_      _| |_    _| |_    https://github.com/CowerDawn/WM-IT                   "
     echo "     \/  \/     |_____||_____|    |_____|  |_____|   Creators: CowerDawn,S0siskaKiller                    "
     echo "                                                     WM-IT - This is a Window manager inside the terminal!"
+    echo "                                                                                                          "
+    echo "                                                                                                          "
     echo "                                                                                                          "
     echo -e "\e[0m"      
 }
