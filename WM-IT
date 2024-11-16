@@ -481,7 +481,7 @@ while true; do
             exit 0
             ;;
         "e")
-            echo "To exit the shell, type the command вЂњexitshellвЂќ"
+            echo "To exit the shell, type the command exitshell "
             shell
             ;;
         "p")
