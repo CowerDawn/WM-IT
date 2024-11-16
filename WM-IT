@@ -204,7 +204,8 @@ function show_help() {
     echo "o: Check distribution support"
     echo "install [package]: Install package"
     echo "remove [package]: Remove package"
-    echo "C - clear the screen"
+    echo "c - clear the screen"
+    echo "y - clear the system"
     echo "help: Show this help"
 }
 
@@ -269,6 +270,71 @@ function show_system_info() {
     echo "Memory Usage: $(free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }')"
     echo "Disk Usage: $(df -h / | awk '{print $5}' | tail -n 1)"
 }
+
+function clear_system() {
+	PM=$(detect_package_manager) 
+       case $PM in
+		"apt")
+			echo "Cleaning the system using apt..."
+			sudo apt autoremove
+			echo "Done."
+			;;
+		"pacman")
+			echo "Cleaning the system using pacman..."
+                        sudo pacman -Scc
+			echo "Cache cleared."
+			sleep 1
+			read -p "Do you want to remove the debug packages? [Y/n]" clearing
+			if [ $clearing =  "y" ];then
+			sudo pacman -Qtdq | grep debug | sudo pacman -Rcs -
+			echo "Done."
+			fi
+			pacman -Qtdq 
+			echo "This is a list of unused packages on your system"
+			sleep 2
+			echo "The system has been cleaned."
+			;;
+		"dnf")
+			echo "Cleaning the system using dnf..."
+			sudo dnf clean all
+			sudo dnf autoremove
+			echo "Done."
+			;;
+		"yum")
+			echo "Cleaning the system using yum..."
+			sudo yum clean all
+			sudo yum autoremove
+			echo "Done."
+			;;
+		"zypper")
+		         echo "Cleaning the system using zypper..."
+			 sudo zypper cc -a
+			 echo "Done."
+			;;
+		"portage")
+			echo "Cleaning the system using portage..."
+			eclean distfiles
+			eclean packages
+			eclean binaries
+			echo "Done."
+			;;
+		"xbps")
+                     echo "Cleaning the system using xbps..."
+		     xbps-remove -0o
+		     echo "Done."
+			;;
+		"pkg")
+		echo "Cleaning the system using pkg..."
+                sudo pkg autoremove
+			;;
+		"pkgin")
+			echo "Cleaning the system using pkgin..."
+		doas pkgin autoremove
+		echo "Done."
+		;;
+esac
+}
+
 
 function network_management() {
     draw_wallpaper
@@ -426,6 +492,7 @@ function check_distribution_support() {
     fi
 }
 
+
 draw_wallpaper
 draw_menu
 
@@ -481,7 +548,7 @@ while true; do
             exit 0
             ;;
         "e")
-            echo "To exit the shell, type the command exitshell "
+            echo "To exit the shell, type the command exitshell"
             shell
             ;;
         "p")
@@ -502,6 +569,9 @@ while true; do
         "o")
             check_distribution_support
             ;;
+    "y")
+	    clear_system
+	    ;;
     esac
     draw_menu
 done
