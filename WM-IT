@@ -494,7 +494,7 @@ function check_distribution_support() {
 
 function update_script() {
     echo "Updating WM-IT..."
-    curl -o /tmp/WM-IT.sh https://raw.githubusercontent.com/CowerDawn/WM-IT/main/WM-IT.sh
+    curl -o /tmp/WM-IT.sh https://raw.githubusercontent.com/CowerDawn/WM-IT/main/WM-IT
     if [ $? -eq 0 ]; then
         sudo mv /tmp/WM-IT.sh "$(realpath "$0")"
         sudo chmod +x "$(realpath "$0")"
