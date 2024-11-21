@@ -74,11 +74,11 @@ function detect_package_manager() {
 	    echo "portage"
     elif [ -f /etc/void-release ];then
 	    echo "xbps"
-    elif [ "$(uname)" = "FreeBSD"];then
+    elif [ "$(uname)" = "FreeBSD" ];then
 	    echo "pkg"
-    elif [ "$(uname)" = "OpenBSD"];then
+    elif [ "$(uname)" = "OpenBSD" ];then
 	    echo "pkg_info"
-    elif [ "$(uname)" = "NetBSD"];then
+    elif [ "$(uname)" = "NetBSD" ];then
 	    echo "pkgin"
     else
         echo "unknown"
@@ -119,11 +119,11 @@ function install_package() {
 	    ;;
     "pkg_info")
 	    echo "Installing $PACKAGE using pkg_add..."
-    doas pkg_add $PACKAGE
+            doas pkg_add $PACKAGE
     ;;
     "pkgin")
 	    echo "Installing $PACKAGE using pkgin..."
-	    sudo pkgin install $PACKAGE
+            doas pkgin install $PACKAGE
 	    ;;
        "pkg")
 	       echo "Installing $PACKAGE using pkg..."
@@ -201,11 +201,11 @@ function show_help() {
     echo "a: Audio management"
     echo "g: Search package"
     echo "o: Check distribution support"
-    echo "install [package]: Install package"
-    echo "remove [package]: Remove package"
+    echo "i: Install package"
+    echo "r: Remove package"
     echo "c - clear the screen"
     echo "y - clear the system"
-    echo "help: Show this help"
+    echo "h: Show this help"
     echo "x: Update WM-IT"
 }
 
@@ -494,7 +494,7 @@ function check_distribution_support() {
 
 function update_script() {
     echo "Updating WM-IT..."
-    curl -o /tmp/WM-IT.sh https://raw.githubusercontent.com/CowerDawn/WM-IT/main/WM-IT
+    curl -o /tmp/WM-IT.sh https://raw.githubusercontent.com/CowerDawn/WM-IT/main/WM-IT.sh
     if [ $? -eq 0 ]; then
         sudo mv /tmp/WM-IT.sh "$(realpath "$0")"
         sudo chmod +x "$(realpath "$0")"
