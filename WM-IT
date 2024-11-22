@@ -14,12 +14,12 @@ function draw_wallpaper() {
     echo "│ | |  | | |_   _| |  | Thank you for downloading WM-IT                       │"
     echo "│ | |__| |   | |   |  | WM-IT github:                                         │"
     echo "│ |  __  |   | |   |__| https://github.com/CowerDawn/WM-IT                    │"
-    echo "│ | |  | |  _| |_   __  Creater: CowerDawn,MrPumba,LFS (S0siskaKiller)        │"
-    echo "│ |_|  |_| |_____| |__| WM-IT - This is a Windows manager inside the terminal!│"
+    echo "│ | |  | |  _| |_   __  Creater: CowerDawn,S0siskaKiller                      │"
+    echo "│ |_|  |_| |_____| |__| WM-IT - This is a Window manager inside the terminal! │"
     echo "│                                                                             │"
     echo "│                                                                             │"
     echo "└─────────────────────────────────────────────────────────────────────────────┘"
-    echo -e "\e[0m"      
+    echo -e "\e[0m"   
 }
 
 function draw_menu() {
@@ -256,14 +256,12 @@ done
 }
 
 function show_processes() {
-    draw_wallpaper
     draw_menu
     echo "Running processes:"
     ps aux | head -n 10
 }
 
 function show_system_info() {
-    draw_wallpaper
     draw_menu
     echo "System Info:"
     echo "CPU Usage: $(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')"
@@ -273,6 +271,8 @@ function show_system_info() {
 
 function clear_system() {
 	PM=$(detect_package_manager) 
+	read -p "You really want to start a cleaning up the system? [y/N] " cleaning
+        if [ $cleaning = "y" ];then
        case $PM in
 		"apt")
 			echo "Cleaning the system using apt..."
@@ -332,12 +332,19 @@ function clear_system() {
 		doas pkgin autoremove
 		echo "Done."
 		;;
+	*) 
+		echo "unsupported package manager"
 esac
+else 
+	echo "Okay."
+	sleep 2
+	clear
+	draw_wallpaper
+	fi 
 }
 
 
 function network_management() {
-    draw_wallpaper
     draw_menu
     echo "Network Management:"
     echo "1. List network interfaces"
@@ -390,7 +397,6 @@ function network_management() {
 }
 
 function audio_management() {
-    draw_wallpaper
     draw_menu
     echo "Audio Management:"
     echo "1. Increase volume"
