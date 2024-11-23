@@ -4,10 +4,11 @@ WORKSPACES=("1" "2" "3" "4" "5" "6" "7" "8" "9")
 CURRENT_WORKSPACE="1"
 PROGRAMS=()
 WALLPAPER="WM-IT"
-
+COLORS=("40" "43" "44" "46" "42" "46")  
+CURRENT_COLOR_INDEX=2 # fedor uberite neiroset 
 function draw_wallpaper() {
     clear
-    echo -e "\e[44m\e[37m"
+    echo -e "\e[${COLORS[$CURRENT_COLOR_INDEX]}m\e[37m"
     echo "┌─────────────────────────────────────────────────────────────────────────────┐"
     echo "│                                                                             │"
     echo "│  _    _   _____   __  Welcome to WM-IT!                                     │"
@@ -344,7 +345,7 @@ else
 }
 
 
-function network_management() {
+function network_manager() {
     draw_menu
     echo "Network Management:"
     echo "1. List network interfaces"
@@ -396,7 +397,7 @@ function network_management() {
     esac
 }
 
-function audio_management() {
+function audio_manager() {
     draw_menu
     echo "Audio Management:"
     echo "1. Increase volume"
@@ -489,15 +490,6 @@ function search_package() {
     esac
 }
 
-function check_distribution_support() {
-    PM=$(detect_package_manager)
-    if [[ $PM != "unknown" ]]; then
-        echo "Your distribution is supported."
-    else
-        echo "Your distribution is not yet supported. Please contact the developers at 8965466986854@mail.ru"
-    fi
-}
-
 function update_script() {
     echo "Updating WM-IT..."
     curl -o /tmp/WM-IT.sh https://raw.githubusercontent.com/CowerDawn/WM-IT/main/WM-IT
@@ -509,6 +501,11 @@ function update_script() {
     else
         echo "Failed to download the update. Please try again later."
     fi
+}
+function change_wallpaper_color() {
+	CURRENT_COLOR_INDEX=$(( (CURRENT_COLOR_INDEX + 1) % ${#COLORS[@]} )) 
+	draw_wallpaper
+	draw_menu
 }
 
 draw_wallpaper
@@ -525,7 +522,7 @@ while true; do
             read PROGRAM
             open_program $PROGRAM
             ;;
-        "q")
+        "s")
             read -p "Enter program name to close:" answer
 	    killall "$answer"
 	    # I hate Jello
@@ -561,7 +558,7 @@ while true; do
         "c")
             clear 
             ;;
-        "s")
+        "q")
             echo "Exiting WM-IT..."
             exit 0
             ;;
@@ -576,16 +573,13 @@ while true; do
             show_system_info
             ;;
         "n")
-            network_management
+            network_manager
             ;;
         "a")
-            audio_management
+            audio_manager
             ;;
         "g")
             search_package
-            ;;
-        "o")
-            check_distribution_support
             ;;
     "y")
 	    clear_system
@@ -593,6 +587,8 @@ while true; do
     "x")
         update_script
         ;;
+"u")
+	change_wallpaper_color
     esac
     draw_menu
 done
