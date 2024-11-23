@@ -4,8 +4,13 @@ WORKSPACES=("1" "2" "3" "4" "5" "6" "7" "8" "9")
 CURRENT_WORKSPACE="1"
 PROGRAMS=()
 WALLPAPER="WM-IT"
+CONFIG_FILE="config.txt"
 COLORS=("40" "43" "44" "46" "42" "46")  
+if [[ -f $CONFIG_FILE ]];then
+	source CONFIG_FILE
+else
 CURRENT_COLOR_INDEX=2 # fedor uberite neiroset 
+fi 
 function draw_wallpaper() {
     clear
     echo -e "\e[${COLORS[$CURRENT_COLOR_INDEX]}m\e[37m"
