@@ -35,6 +35,11 @@ function draw_menu() {
     echo -e "└────────────────────────────────────────────────────────────────────┘\e[0m"
 }
 
+# If you are reading this code, then something may not be working for you.
+# If you use SH, try writing #!/bin/sh instead of #!/bin/bash or specifying your path to bash
+# You can also create a fork of WM-IT for your distribution.
+# If all else fails, contact our email: wm.it.official@gmail.com
+
 function switch_workspace() {
     CURRENT_WORKSPACE=$1
     draw_wallpaper
