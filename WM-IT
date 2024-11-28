@@ -6,9 +6,6 @@ PROGRAMS=()
 WALLPAPER="WM-IT"
 CONFIG_FILE="config.txt"
 COLORS=("40" "43" "44" "46" "42" "46")  
-if [[ -f $CONFIG_FILE ]];then
-	source CONFIG_FILE
-else
 CURRENT_COLOR_INDEX=2 # fedor uberite neiroset
 fi 
 function draw_wallpaper() {
