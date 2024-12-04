@@ -7,7 +7,6 @@ WALLPAPER="WM-IT"
 CONFIG_FILE="config.txt"
 COLORS=("40" "43" "44" "46" "42" "46")  
 CURRENT_COLOR_INDEX=2 # fedor uberite paragenerator
-fi 
 function draw_wallpaper() {
     clear
     echo -e "\e[${COLORS[$CURRENT_COLOR_INDEX]}m\e[37m"
