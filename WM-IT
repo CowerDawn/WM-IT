@@ -4,7 +4,6 @@ WORKSPACES=("1" "2" "3" "4" "5" "6" "7" "8" "9")
 CURRENT_WORKSPACE="1"
 PROGRAMS=()  
 WALLPAPER="WM-IT" 
-CONFIG_FILE="config.txt"
 COLORS=("40" "43" "44" "46" "42" "46")  
 CURRENT_COLOR_INDEX=2 # fedor uberite paragenerator
 function draw_wallpaper() {
@@ -201,7 +200,6 @@ function show_help() {
     echo "Enter: Open command line"
     echo "-: Shutdown PC"
     echo "b: Reboot PC"
-    echo "m: Start X server"
     echo "n: Network management"
     echo "p: Show running processes"
     echo "t: Show system info"
@@ -242,11 +240,6 @@ function reboot_pc() {
     else
         echo "Reboot canceled."
     fi
-}
-
-function start_x_server() {
-    echo "Starting X server with startx..."
-    startx
 }
 
 function shell() {
@@ -353,7 +346,7 @@ else
 
 function network_manager() {
     draw_menu
-    echo "Network Management:"
+    echo "Network Manager:"
     echo "1. List network interfaces"
     echo "2. Enable network interface"
     echo "3. Disable network interface"
@@ -395,7 +388,7 @@ function network_manager() {
             echo "DHCP set for $INTERFACE."
             ;;
         6)
-            echo "Exiting network management."
+            echo "Exiting network manager."
             ;;
         *)
             echo "Invalid choice."
@@ -405,7 +398,7 @@ function network_manager() {
 
 function audio_manager() {
     draw_menu
-    echo "Audio Management:"
+    echo "Audio Manager:"
     echo "1. Increase volume"
     echo "2. Decrease volume"
     echo "3. Mute/Unmute"
@@ -437,7 +430,7 @@ function audio_manager() {
             echo "Default audio device set to $DEVICE."
             ;;
         6)
-            echo "Exiting audio management."
+            echo "Exiting audio manager."
             ;;
         *)
             echo "Invalid choice."
@@ -557,9 +550,6 @@ while true; do
             ;;
         "b")
             reboot_pc
-            ;;
-        "m")
-            start_x_server
             ;;
         "c")
             clear 
