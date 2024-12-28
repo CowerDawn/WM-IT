@@ -200,7 +200,6 @@ function show_help() {
     echo "t: Show system info"
     echo "a: Audio management"
     echo "g: Search package"
-    echo "o: Check distribution support"
     echo "i: Install package"
     echo "r: Remove package"
     echo "c - clear the screen"
