@@ -136,27 +136,6 @@ function install_package() {
     esac
 }
 
-# хы
-
-# хы
-
-# хы
-
-# хы
-
-# хы
-
-# хы
-
-# хы
-
-# хы
-
-# хы
-
-# хы
-
-# хы
 
 
 function remove_package() {
