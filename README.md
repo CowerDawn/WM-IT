@@ -24,8 +24,7 @@ How to install?
 `sudo make install`
 5. And finally launch: `WM-IT`
 
-What kind of license? WM-IT is licensed under HOPL🍻 and is a fully free program.
-See COPYING.txt for the HOPL
+What kind of license? WM-IT is licensed under BSD-3-Clause license  and is a fully free program.
 
 WM-IT is completely made for GNU/Linux systems. Mainly for Arch Linux and the like. For the program to work fully, it is recommended to open it in TTY.
 
